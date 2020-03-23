@@ -32,7 +32,7 @@ router.post('/process_login', function (req, res, next) {
     res.cookie('username', username);
     res.redirect('/welcome')
   } else {
-    res.redirect('/?msg=fail')
+    res.redirect('/login?msg=fail')
   }
 });
 
@@ -42,7 +42,7 @@ router.get('/statement', function (req, res, next) {
 
 router.get('/logout', function (req, res, next) {
   res.clearCookie('username');
-  res.redirect('/')
+  res.redirect('/login')
 });
 
 module.exports = router;
