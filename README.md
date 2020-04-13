@@ -2,12 +2,16 @@
 
 Run the following command:
 
-git clone https://github.com/allenqz98/SneakerAnalysis.git
+// clone the project
+`git clone https://github.com/allenqz98/SneakerAnalysis.git`
 
-cd SneakerAnalysis
+// cd into directory
+`cd SneakerAnalysis`
 
-npm install
+// Install dependencies
+`npm install`
 
-npm run serverstart
+// run the server on localhost:9000
+`npm run serverstart`
 
-The website can be accessed at http://localhost:9000/
+The website can now be accessed at http://localhost:9000/
