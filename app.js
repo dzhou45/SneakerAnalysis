@@ -12,19 +12,18 @@ const DiscordStrategy = require('passport-discord').Strategy;
 const session = require('express-session');
 
 var indexRouter = require('./routes/index');
-var testAPIRouter = require('./routes/api');
 
 var app = express();
 
 // mysql db
 // app.use('/comments', require('./controllers/comments'));
 // app.use('/users', require('./controllers/users'));
-db.connect(db.MODE_PRODUCTION, function() {
+db.connect(db.MODE_PRODUCTION, function () {
   db.get().getConnection((err, conn) => {
     if (err) {
       console.log('Unable to connect to MySQL.');
     } else {
-      app.listen(3000, function() {
+      app.listen(3000, function () {
         console.log('Connected to Database...');
       });
     }
@@ -52,9 +51,9 @@ var discordStrat = new DiscordStrategy(
     clientID: '691896556261212211',
     clientSecret: '5LDqjvgsq_Nk2LWi4j3BBRCvXnk3DeGd',
     callbackURL: 'http://localhost:9000/auth',
-    scope: ['identify', 'email', 'guilds'],
+    scope: ['identify', 'email'],
   },
-  function(accessToken, refreshToken, profile, cb) {
+  function (accessToken, refreshToken, profile, cb) {
     return cb(null, profile);
   }
 );
@@ -78,15 +77,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api', testAPIRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404, '404 Not Found'));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
