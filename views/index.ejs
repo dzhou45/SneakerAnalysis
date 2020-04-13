@@ -46,6 +46,7 @@
               </td>
               <td class="align-middle">
 
+<<<<<<< HEAD
                 <button type="button" class="btn btn-success" data-toggle="modal"
                   data-target=<%= `#addModal${sneaker.id}` %>>
                   Add to Inventory
@@ -53,6 +54,13 @@
 
                 <div class="modal fade" id=<%= `addModal${sneaker.id}` %> tabindex="-1" role="dialog"
                   aria-labelledby="myModalLabel">
+=======
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                  Add to Inventory
+                </button>
+
+                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+>>>>>>> f9330cd5b5db8bdb766d65ae4613afe0fe01c5c8
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <form action="/addSneaker" method="post">

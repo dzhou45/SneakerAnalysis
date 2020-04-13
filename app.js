@@ -23,7 +23,13 @@ db.connect(db.MODE_PRODUCTION, function () {
     if (err) {
       console.log('Unable to connect to MySQL.');
     } else {
+<<<<<<< HEAD
       console.log('Connected to Database...');
+=======
+      app.listen(3000, function () {
+        console.log('Connected to Database...');
+      });
+>>>>>>> f9330cd5b5db8bdb766d65ae4613afe0fe01c5c8
     }
   });
 });
