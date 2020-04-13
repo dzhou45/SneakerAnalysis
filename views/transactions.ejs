@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> <%= mode === 'Purchase'? 'Purchase' : 'Sales' %> History </title>
+  <%- include('head') %>
+</head>
+
+<body>
+
+  <%- include('navbar')%>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1><%= mode === 'Purchase'? 'Purchase' : 'Sales' %> History</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-responsive overflow-hidden" style="height:1000">
+        <table class="table table-wrapper-scroll-y text-center" style="white-space:nowrap">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Name</th>
+              <th scope="col">Brand</th>
+              <th scope="col">Color</th>
+              <th scope="col">Style ID</th>
+              <th scope="col">Retail Price</th>
+              <th scope="col">Date <%= mode === 'Purchase'? 'Purchased': 'Sold' %></th>
+              <th scope="col">Price <%= mode === 'Purchase'? 'Purchased': 'Sold' %> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% parseData.forEach(sneaker => { %>
+            <tr>
+              <td><img src="<%= sneaker.media.thumbUrl %>" width="120" /></td>
+              <td class="align-middle">
+                <p><%= sneaker.title %> </p>
+              </td>
+              <td class="align-middle">
+                <p><%= sneaker.brand %> </p>
+              </td>
+
+              <td class="align-middle">
+                <p><%= sneaker.colorway%> </p>
+              </td>
+              <td class="align-middle">
+                <p><%= sneaker.styleId %> </p>
+              </td>
+              <td class="align-middle">
+                <p>$<%= sneaker.retailPrice %> </p>
+              </td>
+              <td class="align-middle">
+                <p><%= sneaker.actionDate %> </p>
+              </td>
+              <td class="align-middle">
+                <p>$<%= sneaker.actionPrice %> </p>
+              </td>
+
+            </tr>
+            <% }) %>
+          </tbody>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

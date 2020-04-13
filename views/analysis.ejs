@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Sneaker Portfolio </title>
+  <%- include('head') %>
+</head>
+
+<body>
+
+  <%- include('navbar')%>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-7">
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="col-sm-5">
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+  </div>
+
+
+
+  <script>
+    var ctxB = document.getElementById("barChart").getContext('2d');
+    var myBarChart = new Chart(ctxB, {
+      type: 'bar',
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+          label: 'Sales',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: 'rgba(137, 196, 244, 1)',
+          borderWidth: 1
+        }, {
+          label: 'Purchases',
+          data: [20, 19, 30, 5, 2, 8],
+          backgroundColor: 'rgba(228, 120, 51, 1)',
+          borderWidth: 1
+        }, {
+          label: 'Profit($)',
+          data: [200, 109, 300, 500, 200, 30],
+          backgroundColor: 'rgba(102, 204, 153, 1)',
+          borderWidth: 1
+        }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  </script>
+
+  <script>var ctxP = document.getElementById("pieChart").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data: {
+        labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+        datasets: [{
+          data: [300, 50, 100, 40, 120],
+          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });</script>
+</body>
+
+</html>

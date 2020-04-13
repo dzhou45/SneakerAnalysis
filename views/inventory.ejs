@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title> Sneaker Portfolio </title>
+  <title> Sneaker Inventory Management </title>
   <%- include('head') %>
 </head>
 
@@ -13,7 +13,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h1>Welcome to the Sneaker Database</h1>
+        <h1>Personal Inventory</h1>
       </div>
 
       <div class="table-responsive overflow-hidden" style="height:1000">
@@ -23,8 +23,10 @@
               <th scope="col"></th>
               <th scope="col">Name</th>
               <th scope="col">Brand</th>
+              <th scope="col">Color</th>
               <th scope="col">Style ID</th>
               <th scope="col">Retail Price</th>
+              <th scope="col">Stock</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -38,6 +40,10 @@
               <td class="align-middle">
                 <p><%= sneaker.brand %> </p>
               </td>
+
+              <td class="align-middle">
+                <p><%= sneaker.colorway%> </p>
+              </td>
               <td class="align-middle">
                 <p><%= sneaker.styleId %> </p>
               </td>
@@ -45,20 +51,21 @@
                 <p><%= sneaker.retailPrice %> </p>
               </td>
               <td class="align-middle">
+                <p><%= sneaker.quantity %> </p>
+              </td>
+              <td class="align-middle">
 
-                <button type="button" class="btn btn-success" data-toggle="modal"
-                  data-target=<%= `#addModal${sneaker.id}` %>>
-                  Add to Inventory
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saleModal">
+                  Sell
                 </button>
 
-                <div class="modal fade" id=<%= `addModal${sneaker.id}` %> tabindex="-1" role="dialog"
-                  aria-labelledby="myModalLabel">
+                <div class="modal fade" id="saleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                      <form action="/addSneaker" method="post">
+                      <form action="/removeSneaker" method="post">
                         <div class="modal-header">
                           <h4 class="modal-title" id="myModalLabel">
-                            Purchase Information
+                            Sales Information
                           </h4>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -66,21 +73,19 @@
                         </div>
                         <div class="modal-body">
                           <div class="row">
-
                             <input class="form-control mr-sm-2" name="id" type="hidden" value=<%- sneaker.id %>>
+
                             <div class="col-md-3">
                               <p>Quantity:
                                 <select class="form-control mr-sm-2" name="quantity">
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
+                                  <% for(i = 0; i< sneaker.quantity; i++) { %>
+                                  <option value="<%- i+1 %> "><%= i+1 %> </option>
+                                  <% } %>
                                 </select>
                               </p>
                             </div>
                             <div class="col-md-6">
-                              <p>Purchase Price: <input class="form-control mr-sm-2" name="price" type="text"
+                              <p>Price Sold: <input class="form-control mr-sm-2" name="price" type="text"
                                   placeholder="$" />
                               </p>
                             </div>
@@ -88,13 +93,14 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button class="btn btn-primary" type="submit"> Add to Inventory </button>
+                          <button class="btn btn-danger" type="submit"> Sold </button>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
               </td>
+
             </tr>
             <% }) %>
           </tbody>
