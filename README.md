@@ -3,6 +3,7 @@
 Run the following command:
 
 Make sure that Node is installed
+
 `node -v`
 
 Clone the project
