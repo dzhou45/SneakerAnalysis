@@ -16,7 +16,7 @@
         <h1>Welcome to the Sneaker Database</h1>
       </div>
 
-      <div class="table-responsive overflow-hidden" style="height:1000">
+      <div class="table-responsive">
         <table class="table table-wrapper-scroll-y text-center">
           <thead>
             <tr>
@@ -55,7 +55,7 @@
                   aria-labelledby="myModalLabel">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                      <form action="/addSneaker" method="post">
+                      <form name="addForm" action="/addSneaker" method="post">
                         <div class="modal-header">
                           <h4 class="modal-title" id="myModalLabel">
                             Purchase Information
@@ -88,7 +88,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button class="btn btn-primary" type="submit"> Add to Inventory </button>
+                          <button class="btn btn-primary" id="submit"> Add to Inventory </button>
                         </div>
                       </form>
                     </div>
@@ -102,6 +102,7 @@
       </div>
     </div>
   </div>
+
 </body>
 
 </html>

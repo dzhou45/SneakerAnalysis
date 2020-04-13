@@ -27,7 +27,7 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3"
   },
   "jshintConfig": {
     "esversion": 6,

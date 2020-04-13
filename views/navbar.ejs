@@ -13,13 +13,15 @@
         <% } else { %>
       <li> <img height="42" src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.jpg" /> Welcome,
         <%= user.username %></li>
+      <li> <a class="nav-link" href="/logout">Log out</a></li>
       <% } %>
       </li>
       <li><a class="nav-link" href="/">Home</a></li>
       <li><a class="nav-link" href="/inventory">Inventory</a></li>
       <li><a class="nav-link" href="/purchases">Purchase History</a></li>
       <li><a class="nav-link" href="/sales">Sales History</a></li>
-      <li><a class="nav-link" href="/analysis">Analysis</a></li>
+      <!-- <li><a class="nav-link" href="/analysis">Analysis</a></li> -->
+      <li><a class="nav-link" href="/leaderboard">Leaderboard</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li>
@@ -39,7 +41,7 @@
 
           <input class="form-control mr-sm-2" type="search" placeholder="Name" name="sneakerName">
 
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 
         </form>
       </li>

@@ -16,7 +16,7 @@
         <h1>Personal Inventory</h1>
       </div>
 
-      <div class="table-responsive overflow-hidden" style="height:1000">
+      <div class="table-responsive" style="height:1000">
         <table class="table table-wrapper-scroll-y text-center">
           <thead>
             <tr>
@@ -33,36 +33,35 @@
           <tbody>
             <% parseData.forEach(sneaker => { %>
             <tr>
-              <td><img src="<%= sneaker.media.thumbUrl %>" width="120" /></td>
+              <td><img src="<%= sneaker.imageUrl %>" width="120" /></td>
               <td class="align-middle">
                 <p><%= sneaker.title %> </p>
               </td>
               <td class="align-middle">
                 <p><%= sneaker.brand %> </p>
               </td>
-
               <td class="align-middle">
                 <p><%= sneaker.colorway%> </p>
               </td>
               <td class="align-middle">
-                <p><%= sneaker.styleId %> </p>
+                <p><%= sneaker.styleID %> </p>
               </td>
               <td class="align-middle">
                 <p><%= sneaker.retailPrice %> </p>
               </td>
               <td class="align-middle">
-                <p><%= sneaker.quantity %> </p>
+                <p><%= sneaker.stock %></p>
               </td>
               <td class="align-middle">
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saleModal">
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                  data-target=<%= `#saleModal${sneaker.productID}` %>>
                   Sell
                 </button>
-
-                <div class="modal fade" id="saleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal fade" id=<%= `saleModal${sneaker.productID}` %> tabindex="-1" role="dialog"
+                  aria-labelledby="myModalLabel">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                      <form action="/removeSneaker" method="post">
+                      <form action="/sellSneaker" method="post">
                         <div class="modal-header">
                           <h4 class="modal-title" id="myModalLabel">
                             Sales Information
@@ -73,13 +72,13 @@
                         </div>
                         <div class="modal-body">
                           <div class="row">
-                            <input class="form-control mr-sm-2" name="id" type="hidden" value=<%- sneaker.id %>>
+                            <input class="form-control mr-sm-2" name="id" type="hidden" value=<%- sneaker.productID %>>
 
                             <div class="col-md-3">
                               <p>Quantity:
                                 <select class="form-control mr-sm-2" name="quantity">
-                                  <% for(i = 0; i< sneaker.quantity; i++) { %>
-                                  <option value="<%- i+1 %> "><%= i+1 %> </option>
+                                  <% for(i = 0; i< sneaker.stock; i++) { %>
+                                  <option value="<%= i+1 %> "><%= i+1 %> </option>
                                   <% } %>
                                 </select>
                               </p>
@@ -93,7 +92,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button class="btn btn-danger" type="submit"> Sold </button>
+                          <button class="btn btn-danger" id="submit"> Sold </button>
                         </div>
                       </form>
                     </div>
@@ -108,6 +107,9 @@
       </div>
     </div>
   </div>
+  <script>
+
+  </script>
 </body>
 
 </html>

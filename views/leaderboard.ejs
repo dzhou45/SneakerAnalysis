@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Sneaker Portfolio </title>
+  <%- include('head') %>
+</head>
+
+<body>
+
+  <%- include('navbar')%>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Leaderboard</h1>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-wrapper-scroll-y text-center sortable">
+          <thead>
+            <tr>
+              <th scope="col">User</th>
+              <th scope="col">Total Revenue</th>
+              <th scope="col">Total Costs</th>
+              <th scope="col">Total Profits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% parseData.forEach((user) => { %>
+            <tr>
+              <td class="align-middle">
+                <p><%= user.username %> </p>
+              </td>
+              <td class="align-middle">
+                <p>$<%= user.revenue %> </p>
+              </td>
+              <td class="align-middle">
+                <p>$<%= user.costs %> </p>
+              </td>
+              <td class="align-middle">
+                <p>$<%= user.profits %> </p>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

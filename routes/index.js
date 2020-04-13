@@ -17,9 +17,14 @@ router.get(
   '/auth',
   passport.authenticate('discord', {
     successRedirect: '/',
-    failureRedirect: '/loginFailed',
+    failureRedirect: '/',
   })
 );
+
+router.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 router.get('/', function (req, res, next) {
   if (req.isAuthenticated()) {
@@ -52,32 +57,17 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get('/inventory', function (req, res, next) {
-  // console.log(req.user);
-  const baseUrl = 'https://api.thesneakerdatabase.com/v1/sneakers';
-  const userId = req.user.username.id;
-  const parseData = [
-    {
-      id: '104e1c79-26a5-463d-86c4-88ca95ad2d3e',
-      brand: 'Jordan',
-      colorway: 'University Blue/Black-Varsity Red',
-      gender: 'men',
-      media: {
-        imageUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=700&h=500&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-        smallImageUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-        thumbUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=140&h=100&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-      },
-      releaseDate: '2018-06-09 23:59:59',
-      retailPrice: 225,
-      styleId: '308497-406',
-      title: 'Jordan 4 Retro Travis Scott Cactus Jack',
-      year: 2018,
-      quantity: 4,
-    },
-  ];
-  res.render('inventory', { parseData });
+  db.query(`call get_inventory_info(?)`, req.user.id, function (err, data) {
+    if (err) {
+      // error handling code goes here
+      console.log('ERROR : ', err);
+      res.sendStatus(err.status || 500);
+    } else {
+      // code to execute on data retrieval
+      console.log('result from db is : ', data);
+      res.render('inventory', { parseData: data[0] });
+    }
+  });
 });
 
 router.post('/search', function (req, res, next) {
@@ -119,27 +109,56 @@ router.post('/search', function (req, res, next) {
 });
 
 router.post('/addSneaker', function (req, res, next) {
-  console.log(req.body)
   const pid = req.body.id;
   const quantity = req.body.quantity;
-  const buyPrice = req.body.price;
-  console.log("PID", pid);
+  const price = req.body.price;
   let today = new Date();
   let dd = String(today.getDate()).padStart(2, '0');
   let mm = String(today.getMonth() + 1).padStart(2, '0');
   let yyyy = today.getFullYear();
   today = mm + '/' + dd + '/' + yyyy;
-  console.log(today);
   db.query(
     `call add_inventory(?, ?, ?, ?, ?)`,
-    [req.user.id, pid, quantity, buyPrice, today],
+    [req.user.id, pid, quantity, price, today],
     function (err, data) {
       if (err) {
         // error handling code goes here
         console.log('ERROR : ', err);
+        res.status(500);
       } else {
         // code to execute on data retrieval
         console.log('result from db is : ', data);
+        // res.json(data);
+      }
+    }
+  );
+  res.render('index', {
+    parseData: [],
+  });
+});
+
+router.post('/sellSneaker', function (req, res, next) {
+  const pid = req.body.id;
+  console.log('pid ==========', req.body);
+  const quantity = req.body.quantity;
+  const price = req.body.price;
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+  today = mm + '/' + dd + '/' + yyyy;
+  db.query(
+    `call subtract_inventory(?, ?, ?, ?, ?)`,
+    [req.user.id, pid, quantity, price, today],
+    function (err, data) {
+      if (err) {
+        // error handling code goes here
+        console.log('ERROR : ', err);
+        res.status(500);
+      } else {
+        // code to execute on data retrieval
+        console.log('result from db is : ', data);
+        // res.json(data);
       }
     }
   );
@@ -150,62 +169,56 @@ router.post('/addSneaker', function (req, res, next) {
 
 router.get('/purchases', function (req, res, next) {
   let mode = 'Purchase';
-  let parseData = [
-    {
-      id: '104e1c79-26a5-463d-86c4-88ca95ad2d3e',
-      brand: 'Jordan',
-      colorway: 'University Blue/Black-Varsity Red',
-      gender: 'men',
-      media: {
-        imageUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=700&h=500&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-        smallImageUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-        thumbUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=140&h=100&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-      },
-      releaseDate: '2018-06-09 23:59:59',
-      retailPrice: 225,
-      styleId: '308497-406',
-      title: 'Jordan 4 Retro Travis Scott Cactus Jack',
-      actionDate: '4/10/2020',
-      actionPrice: 399,
-    },
-  ];
 
-  res.render('transactions', { parseData, mode });
+  db.query(`call 	get_purchases(?)`, req.user.id, function (err, data) {
+    if (err) {
+      // error handling code goes here
+      console.log('ERROR : ', err);
+      res.sendStatus(err.status || 500);
+    } else {
+      // code to execute on data retrieval
+      console.log('result from db is : ', data);
+      res.render('transactions', { parseData: data[0], mode });
+    }
+  });
 });
 
 router.get('/sales', function (req, res, next) {
   let mode = 'Sold';
-  let parseData = [
-    {
-      id: '104e1c79-26a5-463d-86c4-88ca95ad2d3e',
-      brand: 'Jordan',
-      colorway: 'University Blue/Black-Varsity Red',
-      gender: 'men',
-      media: {
-        imageUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=700&h=500&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-        smallImageUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-        thumbUrl:
-          'https://stockx.imgix.net/Air-Jordan-4-Retro-Travis-Scott-Cactus-Jack-Reg-Backshot.jpeg?fit=fill&bg=FFFFFF&w=140&h=100&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256',
-      },
-      releaseDate: '2018-06-09 23:59:59',
-      retailPrice: 225,
-      styleId: '308497-406',
-      title: 'Jordan 4 Retro Travis Scott Cactus Jack',
-      actionDate: '4/10/2020',
-      actionPrice: 399,
-    },
-  ];
 
-  res.render('transactions', { parseData, mode });
+  db.query(`call get_sales(?)`, req.user.id, function (err, data) {
+    if (err) {
+      // error handling code goes here
+      console.log('ERROR : ', err);
+      res.sendStatus(err.status || 500);
+    } else {
+      // code to execute on data retrieval
+      console.log('result from db is : ', data);
+      res.render('transactions', { parseData: data[0], mode });
+    }
+  });
 });
 
 router.get('/analysis', function (req, res, next) {
   res.render('analysis');
+});
+
+router.get('/leaderboard', function (req, res, next) {
+  const parseData = [
+    {
+      username: 'Kad',
+      revenue: 10000,
+      cost: 5,
+      profit: 9995,
+    },
+    {
+      username: 'Kad2',
+      revenue: 999,
+      cost: 1,
+      profit: 998,
+    },
+  ];
+  res.render('leaderboard', { parseData });
 });
 
 module.exports = router;
