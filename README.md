@@ -2,6 +2,9 @@
 
 Run the following command:
 
+Make sure that Node is installed
+`node -v`
+
 Clone the project
 
 `git clone https://github.com/allenqz98/SneakerAnalysis.git`
