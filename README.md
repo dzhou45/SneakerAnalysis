@@ -20,4 +20,4 @@ Run the server on localhost:9000
 
 The website can now be accessed at http://localhost:9000/
 
-**Note that third party APIs are used for searching which can be laggy sometimes. Refresh and retry a couple times if not responding.
+**Note that third party APIs are used for searching which can be laggy sometimes. Refresh and retry a couple times if not responding.**
