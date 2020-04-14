@@ -218,7 +218,17 @@ router.get('/leaderboard', function (req, res, next) {
       profit: 998,
     },
   ];
-  res.render('leaderboard', { parseData });
+  db.query(`call show_leaderboard()`, req.user.id, function (err, data) {
+    if (err) {
+      // error handling code goes here
+      console.log('ERROR : ', err);
+      res.sendStatus(err.status || 500);
+    } else {
+      // code to execute on data retrieval
+      console.log('result from db is : ', data);
+      res.render('leaderboard', { parseData: data[0] });
+    }
+  });
 });
 
 module.exports = router;
