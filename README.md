@@ -1,4 +1,5 @@
 # SneakerAnalysis
+Allows someone to keep track of the shoes they have bought and sold and the profits they are making.
 
 Run the following command:
 
